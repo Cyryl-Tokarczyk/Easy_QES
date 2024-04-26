@@ -9,11 +9,15 @@ private_key = rsa.generate_private_key(
     key_size=4096
 )
 
-encrypted_pem_private_key = private_key.private_bytes(
+pem_private_key = private_key.private_bytes(
     encoding=serialization.Encoding.PEM,
     format=serialization.PrivateFormat.PKCS8,
-    encryption_algorithm=AES(pin)
+    encryption_algorithm=serialization.NoEncryption
 )
+
+
+
+AES(pin.to_bytes(16, 'big'))
 
 pem_public_key = private_key.public_key().public_bytes(
     encoding=serialization.Encoding.PEM,
