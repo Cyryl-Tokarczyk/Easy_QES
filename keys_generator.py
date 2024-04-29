@@ -37,6 +37,8 @@ def generate_keys(private_key_encryption_pin):
     public_key_file.write(pem_public_key.decode())
     public_key_file.close()
 
+    return True
+
 def decrypt_and_deserialize_private_key(pin):
     key_file = open('encrypted_private_key.pem', 'rb')
     encrypted_private_key = key_file.read()
