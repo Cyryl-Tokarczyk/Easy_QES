@@ -1,0 +1,12 @@
+# Ignore venv
+
+.venv/
+
+# Ignore keys
+
+*.pem
+*.pub
+
+# Ignore pycache
+
+__pycache__/
