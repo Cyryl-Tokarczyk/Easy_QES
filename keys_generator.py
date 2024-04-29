@@ -37,7 +37,7 @@ def generate_keys(private_key_encryption_pin):
     public_key_file.write(pem_public_key.decode())
     public_key_file.close()
 
-def decode_private_key(pin):
+def decrypt_and_deserialize_private_key(pin):
     key_file = open('encrypted_private_key.pem', 'rb')
     encrypted_private_key = key_file.read()
 
@@ -64,4 +64,4 @@ def decode_private_key(pin):
 
 if __name__ == '__main__':
     generate_keys(6969)
-    decode_private_key(6969)
+    decrypt_and_deserialize_private_key(6969)
