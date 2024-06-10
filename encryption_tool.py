@@ -1,8 +1,6 @@
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives.hashes import SHA256
-from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives import serialization, padding
+from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.ciphers.algorithms import AES
 from cryptography.hazmat.primitives.ciphers import Cipher, modes
 import os
@@ -21,11 +19,7 @@ def encrypt_file(file_path, public_key_path):
     try:
         encrypted_data = public_key.encrypt(
             document_data,
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=SHA256()),
-                algorithm=SHA256(),
-                label=None
-            )
+            padding.PKCS1v15()
         )
     except ValueError as e:
         print("Błąd podczas szyfrowania danych:", e)
@@ -35,13 +29,7 @@ def encrypt_file(file_path, public_key_path):
         encrypted_file.write(encrypted_data)
     print("Plik został zaszyfrowany pomyślnie")
 
-def decrypt_file(file_path, private_key_path, pin):
-    with open(private_key_path, 'rb') as key_file:
-        try:
-            private_key = decrypt_and_deserialize_private_key(pin)
-        except ValueError as e:
-            print("Błąd podczas odszyfrowywania klucza prywatnego:", e)
-            return
+def decrypt_file(file_path, private_key):
 
     with open(file_path, 'rb') as encrypted_file:
         encrypted_data = encrypted_file.read()
@@ -49,11 +37,7 @@ def decrypt_file(file_path, private_key_path, pin):
     try:
         decrypted_data = private_key.decrypt(
             encrypted_data,
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=SHA256()),
-                algorithm=SHA256(),
-                label=None
-            )
+            padding.PKCS1v15()
         )
     except ValueError as e:
         print("Błąd podczas odszyfrowywania danych:", e)

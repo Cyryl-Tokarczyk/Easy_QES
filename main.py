@@ -4,6 +4,8 @@ from keys_generator import generate_keys, decrypt_and_deserialize_private_key
 from signing_tool import sign_document, verify_signature
 from encryption_tool import encrypt_file, decrypt_file
 
+PUBLIC_KEY_PATH = 'public_key.pub'
+
 root = tk.Tk()
 
 # Window parameters
@@ -79,10 +81,8 @@ encrypt_file_header.pack()
 def encrypt_file_button_function():
     file_path = filedialog.askopenfilename()
     if file_path:
-        public_key_path = filedialog.askopenfilename(title="Select Public Key File")
-        if public_key_path:
-            encrypt_file(file_path, public_key_path)
-            messagebox.showinfo('Success', 'File encrypted successfully')
+        encrypt_file(file_path, PUBLIC_KEY_PATH)
+        messagebox.showinfo('Success', 'File encrypted successfully')
 
 encrypt_file_button = tk.Button(root, text='Encrypt File', command=encrypt_file_button_function)
 encrypt_file_button.pack()

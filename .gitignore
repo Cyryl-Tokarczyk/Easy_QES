@@ -10,3 +10,7 @@
 # Ignore pycache
 
 __pycache__/
+
+# Ignore test
+
+test/
