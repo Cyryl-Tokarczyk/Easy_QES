@@ -80,7 +80,7 @@ def load_keys_button_function():
     else:
         selected_drive = drives_combobox.get()
         if selected_drive:
-            private_key, public_key = load_keys_from_pendrive(selected_drive)
+            private_key, public_key = load_keys_from_pendrive(selected_drive, int(pin))
             if private_key:
                 messagebox.showinfo('Success', 'Keys loaded successfully')
             else:
