@@ -2,7 +2,7 @@
 
 int main() {
 
-	cout << "chuj" << endl;
+	cout << "test" << endl;
 
 	return 0;
 }
