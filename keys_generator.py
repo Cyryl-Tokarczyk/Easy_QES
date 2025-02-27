@@ -39,9 +39,10 @@ def generate_keys(private_key_encryption_pin):
 
     return True
 
-def decrypt_and_deserialize_private_key(pin):
-    key_file = open('encrypted_private_key.pem', 'rb')
-    encrypted_private_key = key_file.read()
+def decrypt_and_deserialize_private_key(pin, encrypted_private_key = None):
+    if encrypted_private_key == None:
+        key_file = open('encrypted_private_key.pem', 'rb')
+        encrypted_private_key = key_file.read()
 
     # Get the initialization vector from the first 16 bytes of the encrypted file and vice versa the ciphertext
     initialization_vector = encrypted_private_key[:16]
@@ -63,6 +64,25 @@ def decrypt_and_deserialize_private_key(pin):
     )
 
     return private_key
+
+def load_keys_from_pendrive(drive_path, pin):
+    private_key_path = os.path.join(drive_path, 'encrypted_private_key.pem')
+    public_key_path = os.path.join(drive_path, 'public_key.pub')
+    
+    # Decrypt the private key
+    with open(private_key_path, 'rb') as key_file:
+        encrypted_private_key = key_file.read()
+
+    private_key = decrypt_and_deserialize_private_key(pin, encrypted_private_key)
+
+    # Copy keys to current directory
+    with open('encrypted_private_key.pem', 'wb') as dest_private_key_file:
+        dest_private_key_file.write(encrypted_private_key)
+
+    with open(public_key_path, 'rb') as src_public_key_file:
+        public_key = src_public_key_file.read()
+
+    return private_key, public_key
 
 if __name__ == '__main__':
     generate_keys(6969)
